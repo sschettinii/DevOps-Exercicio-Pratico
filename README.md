@@ -1,1 +1,1 @@
-# DevOps-Exerc-o-Pr-tico
+# DevOps-Exercicio-Pratico
