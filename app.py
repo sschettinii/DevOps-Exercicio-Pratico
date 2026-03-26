@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from flask import render_template
 from db import create_app
+import numpy as np
 
 # Criação da instância para o aplicativo Flask.
 app = create_app()
