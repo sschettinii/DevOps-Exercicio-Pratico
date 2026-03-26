@@ -2,9 +2,9 @@ name: Auto Update Requirements
 
 on:
   push:
-    branches: [ main, master ] # Ou a branch que vocês usam para o exercício
+    branches: [ main ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main ] # Roda quando um PR for ABERTO para a main
 
 jobs:
   update-reqs:
