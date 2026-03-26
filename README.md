@@ -60,3 +60,9 @@ O sistema implementa o CRUD completo conforme solicitado:
     ```bash
     python app.py
     ```
+
+## Utilitários de Desenvolvimento
+Para popular o banco de dados com dados de teste iniciais, execute:
+
+```bash
+python -m scripts.seeds
