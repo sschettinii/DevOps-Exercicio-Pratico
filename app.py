@@ -3,13 +3,16 @@ from flask import render_template
 from db import create_app
 import numpy as np
 
+from models.tarefa_model import Tarefa
+
 # Criação da instância para o aplicativo Flask.
 app = create_app()
 
 # Definição do Endpoint inicial, que retorna uma mensagem de sucesso e o código HTTP 200, que significa "OK"
 @app.route('/')
 def home():
-    return render_template("index.html")
+    tarefas = Tarefa.query.all()
+    return render_template('index.html', tarefas=tarefas)
 
 # Inicialização do servidor Flask, com o modo de depuração ativado para facilitar o desenvolvimento e a identificação de erros.
 if __name__ == '__main__':
