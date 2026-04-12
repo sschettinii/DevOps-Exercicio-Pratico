@@ -37,10 +37,19 @@
                 <span>{{ tarefa.titulo }}</span>
                 <span class="badge">#{{ tarefa.id }}</span>
             </div>
-            <div class="actions">
-                <button class="btn-edit"><a href="{{ url_for('edit_task', id=tarefa.id) }}">Editar</a></button>
-                <button>Excluir</button>
-            </div>
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+
+            <a href="{{ url_for('edit_task', id=tarefa.id) }}" style="padding: 5px 10px; background-color: #58a6ff; color: #0d1117; text-decoration: none; border-radius: 4px; font-weight: bold;">
+                Editar
+            </a>
+
+            <form action="{{ url_for('delete_task', id=tarefa.id) }}" method="POST" style="margin: 0;" onsubmit="return confirm('Tem certeza que deseja excluir esta tarefa?');">
+                <button type="submit" style="padding: 5px 10px; background-color: #da3633; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">
+                    Excluir
+                </button>
+            </form>
+
+        </div>
         </li>
         {% endfor %}
     </ul>
