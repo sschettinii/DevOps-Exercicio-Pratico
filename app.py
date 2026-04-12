@@ -53,6 +53,21 @@ def add_task():
 
     return redirect("/")
 
+# Rota para excluir uma tarefa existente
+@app.route("/delete/<int:id>", methods=["POST"])
+def delete_task(id):
+    # Busca a tarefa pelo ID ou retorna um erro 404 se não existir
+    tarefa = Tarefa.query.get_or_404(id)
+
+    # Remove a tarefa da sessão do banco de dados
+    db.session.delete(tarefa)
+    
+    # Salva as alterações
+    db.session.commit()
+
+    # Redireciona de volta para a lista de tarefas
+    return redirect("/")
+
 # Inicialização do servidor Flask, com o modo de depuração ativado para facilitar o desenvolvimento e a identificação de erros.
 if __name__ == '__main__':
     app.run(debug=True)
