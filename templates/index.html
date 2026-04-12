@@ -38,7 +38,7 @@
                 <span class="badge">#{{ tarefa.id }}</span>
             </div>
             <div class="actions">
-                <button class="btn-edit">Editar</button>
+                <button class="btn-edit"><a href="{{ url_for('edit_task', id=tarefa.id) }}">Editar</a></button>
                 <button>Excluir</button>
             </div>
         </li>
