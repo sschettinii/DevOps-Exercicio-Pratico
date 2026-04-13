@@ -68,6 +68,20 @@ def delete_task(id):
     # Redireciona de volta para a lista de tarefas
     return redirect("/")
 
+@app.route("/update_status/<int:id>", methods=["POST"])
+def update_status(id):
+    tarefa = Tarefa.query.get_or_404(id)
+    
+    # Recebe os dados enviados pelo JavaScript (JSON)
+    dados = request.get_json()
+    
+    if dados and 'status' in dados:
+        tarefa.status = dados['status']
+        db.session.commit()
+        return jsonify({"success": True, "status_atual": tarefa.status}), 200
+    
+    return jsonify({"success": False, "error": "Dados inválidos"}), 400
+
 # Inicialização do servidor Flask, com o modo de depuração ativado para facilitar o desenvolvimento e a identificação de erros.
 if __name__ == '__main__':
     app.run(debug=True)

@@ -18,6 +18,10 @@
         .badge { font-size: 10px; background: #30363d; padding: 2px 6px; border-radius: 10px; color: #8b949e; }
         .actions button { background: transparent; border: 1px solid #f85149; color: #f85149; font-size: 12px; padding: 5px; }
         .actions .btn-edit { border-color: #d29922; color: #d29922; margin-right: 5px; }
+        .tarefa-concluida {
+            text-decoration: line-through;
+            color: #8b949e; /* Um cinza para dar aspecto de desativado */
+        }
     </style>
 </head>
 <body>
@@ -33,8 +37,11 @@
         {% for tarefa in tarefas %}
         <li class="task-item">
             <div class="task-info">
-                <input type="checkbox" {% if tarefa.status %}checked{% endif %}>
-                <span>{{ tarefa.titulo }}</span>
+                <input type="checkbox" 
+                       class="check-tarefa" 
+                       data-id="{{ tarefa.id }}" 
+                       {% if tarefa.status %}checked{% endif %}>
+                <span id="titulo-{{ tarefa.id }}" class="{% if tarefa.status %}tarefa-concluida{% endif %}">{{ tarefa.titulo }}</span>
                 <span class="badge">#{{ tarefa.id }}</span>
             </div>
         <div style="display: flex; gap: 10px; margin-top: 10px;">
@@ -58,6 +65,47 @@
         Conectado ao SQLite: <span style="color: #3fb950;">Ativo</span>
     </p>
 </div>
+
+<script>
+    // Seleciona todos os checkboxes com a classe 'check-tarefa'
+    document.querySelectorAll('.check-tarefa').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const tarefaId = this.getAttribute('data-id');
+            const status = this.checked; // Retorna true ou false
+
+            // Envia a requisição assíncrona para o Flask
+            fetch(`/update_status/${tarefaId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: status })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Status atualizado com sucesso!');
+                    // Opcional: riscar o texto se estiver concluído
+                    const span = document.getElementById(`titulo-${tarefaId}`);
+                    if (status) {
+                        span.style.textDecoration = 'line-through';
+                        span.style.color = 'grey';
+                    } else {
+                        span.style.textDecoration = 'none';
+                        span.style.color = 'white';
+                    }
+                } else {
+                    alert('Erro ao atualizar status.');
+                    this.checked = !status; // Reverte o checkbox em caso de erro
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                this.checked = !status;
+            });
+        });
+    });
+</script>
 
 </body>
 </html>
