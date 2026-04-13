@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciador de Tarefas</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f9; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); max-width: 400px; }
+        .hidden { display: none; }
+        input, textarea { width: 100%; margin-bottom: 10px; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        button { cursor: pointer; padding: 8px 12px; border: none; border-radius: 4px; }
+        .btn-edit { background: #007bff; color: white; }
+        .btn-save { background: #28a745; color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div id="view-mode">
+            <h2 id="task-title">Estudar HTML/JS</h2>
+            <p id="task-desc">Praticar manipulação de DOM e eventos.</p>
+            <button class="btn-edit" onclick="toggleEdit()">Editar</button>
+        </div>
+
+        <div id="edit-mode" class="hidden">
+            <label>Nome da Tarefa:</label>
+            <input type="text" id="input-title">
+            
+            <label>Descrição:</label>
+            <textarea id="input-desc" rows="3"></textarea>
+            
+            <button class="btn-save" onclick="saveTask()">Salvar Alterações</button>
+            <button onclick="toggleEdit()">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        const viewMode = document.getElementById('view-mode');
+        const editMode = document.getElementById('edit-mode');
+        
+        const taskTitle = document.getElementById('task-title');
+        const taskDesc = document.getElementById('task-desc');
+        
+        const inputTitle = document.getElementById('input-title');
+        const inputDesc = document.getElementById('input-desc');
+
+        // 1. Botão "Editar" abre formulário preenchido com dados atuais
+        function toggleEdit() {
+            if (editMode.classList.contains('hidden')) {
+                inputTitle.value = taskTitle.innerText;
+                inputDesc.value = taskDesc.innerText;
+            }
+            viewMode.classList.toggle('hidden');
+            editMode.classList.toggle('hidden');
+        }
+
+        // 2. As alterações são salvas (Simulação de Banco de Dados)
+        function saveTask() {
+            const novoTitulo = inputTitle.value;
+            const novaDesc = inputDesc.value;
+
+            // Atualiza a interface
+            taskTitle.innerText = novoTitulo;
+            taskDesc.innerText = novaDesc;
+
+            // Simula salvamento no banco (usando localStorage)
+            const tarefa = { titulo: novoTitulo, descricao: novaDesc };
+            localStorage.setItem('tarefa_1', JSON.stringify(tarefa));
+
+            console.log("Dados salvos no 'banco' com sucesso!");
+            toggleEdit(); // Volta para o modo de visualização
+        }
+    </script>
+</body>
+</html>
